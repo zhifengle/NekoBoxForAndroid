@@ -410,7 +410,7 @@
         \n
         \n如果你必须使用它，先试试N=2，看看是否能解决你的问题。强烈建议不要在这里使用超过4个连接。</string>
     <string name="naive_tunnel_timeout">定期重建 HTTPS 隧道</string>
-    <string name="naive_tunnel_timeout_summary">HTTPS 隧道退役间隔，单位为秒。留空或填 0 表示使用 Naive 默认值。</string>
+    <string name="naive_tunnel_timeout_summary">HTTPS 隧道退役间隔，单位为秒。留空或填 0 表示使用 Naive 默认值（Android 为 600 秒）。</string>
     <string name="tools_network">网络</string>
     <string name="backup">备份</string>
     <string name="backup_groups_and_configurations">分组和配置</string>
