@@ -472,6 +472,8 @@
         and less secure. This project strives for the strongest security against traffic analysis.
         Using it in an insecure way defeats its purpose. \n\nIf you must use this, try N=2 first to
         see if it solves your issues. Strongly recommend against using more than 4 connections here.</string>
+    <string name="naive_tunnel_timeout">Rebuild HTTPS Tunnel Interval</string>
+    <string name="naive_tunnel_timeout_summary">Seconds before retiring an HTTPS tunnel. Leave empty or 0 to use Naive\'s default.</string>
 
     <string name="stun_test">NAT behaviour discovery</string>
     <string name="stun_test_summary">Determine the client\'s NAT mapping behaviour and the NAT

@@ -39,6 +39,12 @@
             app:title="@string/protocol"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
+            app:dialogMessage="@string/naive_tunnel_timeout_summary"
+            app:icon="@drawable/ic_baseline_refresh_24"
+            app:key="tunnelTimeout"
+            app:title="@string/naive_tunnel_timeout"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
             app:icon="@drawable/ic_baseline_texture_24"
             app:key="serverHeaders"
             app:title="@string/extra_headers"

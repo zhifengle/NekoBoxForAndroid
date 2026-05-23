@@ -8,6 +8,9 @@ import io.nekohasekai.sagernet.R
 import io.nekohasekai.sagernet.database.DataStore
 import io.nekohasekai.sagernet.database.preference.EditTextPreferenceModifiers
 import io.nekohasekai.sagernet.fmt.naive.NaiveBean
+import moe.matsuri.nb4a.ui.SimpleMenuPreference
+
+private const val KEY_TUNNEL_TIMEOUT = "tunnelTimeout"
 
 class NaiveSettingsActivity : ProfileSettingsActivity<NaiveBean>() {
 
@@ -24,6 +27,10 @@ class NaiveSettingsActivity : ProfileSettingsActivity<NaiveBean>() {
         DataStore.serverCertificates = certificates
         DataStore.serverHeaders = extraHeaders
         DataStore.serverInsecureConcurrency = insecureConcurrency
+        DataStore.profileCacheStore.putString(
+            KEY_TUNNEL_TIMEOUT,
+            (tunnelTimeout ?: 0).takeIf { it > 0 }?.toString()
+        )
         DataStore.profileCacheStore.putBoolean("sUoT", sUoT)
     }
 
@@ -38,6 +45,7 @@ class NaiveSettingsActivity : ProfileSettingsActivity<NaiveBean>() {
         certificates = DataStore.serverCertificates
         extraHeaders = DataStore.serverHeaders.replace("\r\n", "\n")
         insecureConcurrency = DataStore.serverInsecureConcurrency
+        tunnelTimeout = DataStore.profileCacheStore.getString(KEY_TUNNEL_TIMEOUT)?.toIntOrNull() ?: 0
         sUoT = DataStore.profileCacheStore.getBoolean("sUoT")
     }
 
@@ -54,6 +62,20 @@ class NaiveSettingsActivity : ProfileSettingsActivity<NaiveBean>() {
         }
         findPreference<EditTextPreference>(Key.SERVER_INSECURE_CONCURRENCY)!!.apply {
             setOnBindEditTextListener(EditTextPreferenceModifiers.Number)
+        }
+        val tunnelTimeout = findPreference<EditTextPreference>(KEY_TUNNEL_TIMEOUT)!!.apply {
+            setOnBindEditTextListener(EditTextPreferenceModifiers.Number)
+        }
+        val protocol = findPreference<SimpleMenuPreference>(Key.SERVER_PROTOCOL)!!
+
+        fun updateProtocol(proto: String?) {
+            tunnelTimeout.isVisible = proto == "https"
+        }
+
+        updateProtocol(protocol.value)
+        protocol.setOnPreferenceChangeListener { _, newValue ->
+            updateProtocol(newValue as? String)
+            true
         }
     }
 

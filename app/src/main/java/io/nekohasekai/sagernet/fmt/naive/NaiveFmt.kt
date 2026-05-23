@@ -21,6 +21,7 @@ fun parseNaive(link: String): NaiveBean {
         certificates = url.queryParameter("cert")
         extraHeaders = url.queryParameter("extra-headers")?.unUrlSafe()?.replace("\r\n", "\n")
         insecureConcurrency = url.queryParameter("insecure-concurrency")?.toIntOrNull()
+        tunnelTimeout = url.queryParameter("tunnel-timeout")?.toIntOrNull()
         name = url.fragment
         initializeDefaultValues()
     }
@@ -49,6 +50,10 @@ fun NaiveBean.toUri(proxyOnly: Boolean = false): String {
         }
         if (insecureConcurrency > 0) {
             builder.addQueryParameter("insecure-concurrency", "$insecureConcurrency")
+        }
+        val timeout = tunnelTimeout ?: 0
+        if (timeout > 0 && proto == "https") {
+            builder.addQueryParameter("tunnel-timeout", "$timeout")
         }
     }
     return builder.toLink(if (proxyOnly) proto else "naive+$proto", false)
@@ -85,6 +90,10 @@ fun NaiveBean.buildNaiveConfig(port: Int): String {
         }
         if (insecureConcurrency > 0) {
             put("insecure-concurrency", insecureConcurrency)
+        }
+        val timeout = tunnelTimeout ?: 0
+        if (timeout > 0 && proto == "https") {
+            put("tunnel-timeout", timeout)
         }
     }.toStringPretty()
 }
